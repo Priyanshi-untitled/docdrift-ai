@@ -1,0 +1,21 @@
+{
+  "name": "docdrift-ai",
+  "version": "2.0.0",
+  "description": "Documentation Integrity Scanner — detects drift, lies, and stale docs",
+  "main": "src/index.js",
+  "bin": {
+    "docdrift": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js serve",
+    "scan": "node src/index.js scan",
+    "dev": "node src/index.js serve"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
