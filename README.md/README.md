@@ -18,7 +18,7 @@
 
 **DocDrift AI** scans your codebase and documentation for stale content, misleading claims, TODOs left in production, and the gap between what your code *says* and what it *does.*
 
-[🌐 **Live Demo**](https://docdrift-ai.onrender.com) · [📖 **Docs**](#usage) · [🚀 **Quick Start**](#quick-start) · [🛠 **API**](#api-reference)
+[🌐 **Live Demo**](https://docdrift-ai-1.onrender.com) · [📖 **Docs**](#usage) · [🚀 **Quick Start**](#quick-start) · [🛠 **API**](#api-reference)
 
 </div>
 
