@@ -9,26 +9,24 @@
 ╚═════╝  ╚═════╝  ╚═════╝╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝        ╚═╝       ╚═╝  ╚═╝╚═╝
 ```
 
-### 🔍 Documentation Integrity Scanner — *Find the lies your docs are hiding*
+### 🔍 Documentation Integrity Scanner
+
+**Find the drift between what your code does and what your docs claim.**
 
 [![Node.js](https://img.shields.io/badge/Node.js-≥16-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Render-46E3B7?style=flat-square&logo=render&logoColor=white)](https://docdrift-ai.onrender.com)
-[![No API Key](https://img.shields.io/badge/No%20API%20Key-Works%20Offline-success?style=flat-square)]()
+[![Works Offline](https://img.shields.io/badge/No%20API%20Key%20Required-Works%20Offline-success?style=flat-square)]()
 
-**DocDrift AI** scans your codebase and documentation for stale content, misleading claims, TODOs left in production, and the gap between what your code *says* and what it *does.*
+DocDrift AI scans your project files and flags stale documentation, unfinished code markers, misleading claims, and the gap between what your code *does* and what your docs *say it does.*
 
-[🌐 **Live Demo**](https://docdrift-ai-1.onrender.com) · [📖 **Docs**](#usage) · [🚀 **Quick Start**](#quick-start) · [🛠 **API**](#api-reference)
+[🌐 Live Demo](https://docdrift-ai.onrender.com) · [Quick Start](#quick-start) · [API Reference](#api-reference) · [Deploy](#deployment)
 
 </div>
 
 ---
 
-## ✨ What It Does
-
-Ever shipped docs that were 6 months out of date? Left a `TODO: add real logic here` in production? Claimed your tool was "zero config" when it definitely isn't?
-
-**DocDrift AI catches all of it.**
+## What It Detects
 
 ```
   🔴 src/auth.js            24%   CRITICAL
@@ -37,64 +35,68 @@ Ever shipped docs that were 6 months out of date? Left a `TODO: add real logic h
 
   ⚠️  README.md             51%   WARNING
      Missing sections: api, contributing, license.
-     Contains misleading claim: "zero config".
+     Contains unverified claim: "zero config".
 
   ✅ CHANGELOG.md           91%   VERIFIED
      No issues detected.
 ```
 
+DocDrift assigns every file a **Trust Score** from 0–100 based on detected issues. The overall project gets a weighted grade (A through F).
+
 ---
 
-## 🎯 Features
+## Features
 
 | Feature | Description |
 |---|---|
-| 🧠 **Semantic Analysis** | Detects vague, empty, and placeholder documentation |
-| 🔍 **Hallucination Detection** | Flags misleading claims like "fastest", "zero config", "100%" |
-| 🔄 **Drift Engine** | Finds mismatches between code behaviour and its documentation |
-| 📊 **Trust Score** | Weighted integrity score (A–F grade) across your entire project |
-| 💻 **CLI Tool** | Run from terminal with colored output and live progress |
-| 🌐 **Web Dashboard** | Futuristic real-time scanner UI — no setup needed |
-| ⚡ **Zero Dependencies on AI APIs** | Fully offline, no OpenAI/Anthropic key needed |
-| 🗂 **Multi-format** | Scans `.md`, `.js`, `.ts`, `.py`, `.json`, `.yaml` and more |
+| 🧠 Semantic Analysis | Detects vague, empty, and placeholder documentation |
+| 🔍 Hallucination Detection | Flags unverifiable claims in docs and comments |
+| 🔄 Drift Engine | Identifies TODOs, debug code, and missing doc sections |
+| 📊 Trust Score | Weighted integrity score across your entire codebase |
+| 💻 CLI Tool | Terminal runner with colored output and live scan progress |
+| 🌐 Web Dashboard | Real-time scanner UI — open browser and scan immediately |
+| 🔌 Works Offline | No external API calls required — runs entirely on your machine |
+| 🗂 Multi-format | Scans `.md`, `.js`, `.ts`, `.py`, `.json`, `.yaml` and more |
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
+
+**Requirements:** Node.js 16 or higher. No API keys needed.
 
 ```bash
-# Clone and install
+# 1. Clone the repository
 git clone https://github.com/YOUR-USERNAME/docdrift-ai.git
 cd docdrift-ai
+
+# 2. Install dependencies
 npm install
 
-# Start the web dashboard
+# 3. Start the web dashboard
 npm start
-# → Open http://localhost:3847
+# Open http://localhost:3847 in your browser
 
-# OR scan directly from terminal
+# 4. Or scan directly from terminal
 node src/index.js scan .
-node src/index.js scan C:/my-project
+node src/index.js scan /path/to/your/project
 ```
 
-> **Requirements:** Node.js ≥ 16 · No API keys · No internet required
-
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
-👉 **[https://docdrift-ai-1.onrender.com](https://docdrift-ai-1.onrender.com)**
+**[https://docdrift-ai.onrender.com](https://docdrift-ai.onrender.com)**
 
-1. Open the link
-2. Type **`.`** in the input box
+1. Open the link above
+2. Type `.` in the input box (scans the deployed project itself)
 3. Click **START SCAN**
-4. Watch DocDrift scan itself in real-time 🔍
+4. Real results appear within seconds
 
-> ⏱ First load may take 30–60 seconds (free server cold start) — subsequent scans are instant.
+> First load may take up to 60 seconds — the free Render instance sleeps when inactive. After the first request it responds immediately.
 
 ---
 
-## 💻 Usage
+## Usage
 
 ### Web Dashboard
 
@@ -102,22 +104,23 @@ node src/index.js scan C:/my-project
 npm start
 ```
 
-Open `http://localhost:3847` and enter any local folder path:
+Open `http://localhost:3847` and enter the path to any local project folder:
 
 ```
-C:\Users\me\my-project        ← Windows absolute path
-/home/user/projects/my-api    ← Linux/Mac absolute path
-.                             ← Current directory
-../other-project              ← Relative path
+C:\Users\me\my-project        Windows absolute path
+/home/user/projects/api       Linux or macOS absolute path
+.                             Scan the current directory
+../other-project              Relative path
 ```
 
-> ⚠️ **GitHub URLs won't work directly.** Clone first, then scan:
-> ```bash
-> git clone https://github.com/someone/repo my-repo
-> node src/index.js scan my-repo
-> ```
+**Scanning a GitHub repository:**
 
----
+GitHub URLs cannot be scanned directly. Clone the repository first, then point DocDrift at the local folder:
+
+```bash
+git clone https://github.com/username/repo-name  my-local-copy
+node src/index.js scan my-local-copy
+```
 
 ### CLI Tool
 
@@ -125,10 +128,16 @@ C:\Users\me\my-project        ← Windows absolute path
 node src/index.js scan <path>
 ```
 
-**Example output:**
+Example output:
 
 ```
   DocDrift AI — Documentation Integrity Scanner v2.0.0
+
+  › Resolving target path...
+  › Found 7 file(s) to analyze.
+  › Analyzing: README.md
+  › Analyzing: src/index.js
+  › Computing trust scores...
 
   ════════════════════════════════════════════════════════════════
   📊 DOCDRIFT AI — SCAN REPORT   Completed in 0.43s
@@ -145,7 +154,8 @@ node src/index.js scan <path>
   FLAGGED FILES
 
   🔴 src/auth.js  24%  Source Code
-     12 TODO/FIXME markers in production code.
+     12 TODO/FIXME markers in production code. 8 console.log
+     statements — likely debug code left in production.
 
   ⚠️  README.md  51%  Documentation
      Missing key sections: api, contributing, license.
@@ -154,58 +164,76 @@ node src/index.js scan <path>
 
 ---
 
-## 🧠 What Gets Detected
+## What Gets Scanned
 
-### Documentation Files (`.md`, `.txt`, `.rst`)
-- ❌ Empty or near-empty content (< 20 words)
-- ❌ Missing critical README sections (Install / Usage / API / License)
-- ❌ TODO / FIXME markers inside docs
-- ❌ Vague placeholder language (`stuff`, `things`, `foo`, `bar`)
-- ❌ Misleading hype claims (`"best"`, `"fastest"`, `"zero config"`, `"100%"`)
+### Documentation (`.md`, `.txt`, `.rst`)
+- Empty or near-empty files (under 20 words)
+- Missing standard README sections: Installation, Usage, API, License
+- TODO or FIXME markers left inside documentation
+- Vague filler language that adds no meaning
+- Unverifiable superlative claims in project descriptions
 
-### Source Code (`.js`, `.ts`, `.py`, `.go`, etc.)
-- ❌ TODO / FIXME / HACK markers left in production
-- ❌ Excessive `console.log` debug statements
-- ❌ Large files (100+ lines) with < 3% comment coverage
-- ❌ Empty comment blocks
+### Source Code (`.js`, `.ts`, `.py`, `.go`, `.rb`, and more)
+- TODO, FIXME, HACK, and BUG markers in production code
+- Excessive debug logging statements left in
+- Files over 100 lines with under 3% comment coverage
+- Empty comment blocks
 
-### Config Files (`package.json`, `.yaml`, `.toml`)
-- ❌ Hardcoded secrets / API keys
-- ❌ Missing `description` or `version` in `package.json`
-- ❌ `main` field pointing to a non-existent file
-- ❌ Malformed JSON
+### Configuration (`.json`, `.yaml`, `.toml`)
+- Hardcoded credentials or API keys
+- Missing required fields in `package.json`
+- The `main` field pointing to a file that does not exist
+- Malformed JSON structure
 
 ---
 
-## 🏗 Project Structure
+## Scoring System
+
+Each file receives a Trust Score from 0 to 100. Files are weighted by category:
+
+| Category | Weight | Reason |
+|---|---|---|
+| Documentation | 2.0× | Most visible to users and contributors |
+| Configuration | 1.5× | Errors here can cause security issues |
+| Source Code | 1.0× | Baseline weight |
+
+The overall project score is the weighted average. Grades follow the standard A–F scale.
+
+---
+
+## Project Structure
 
 ```
 docdrift-ai/
 ├── src/
-│   ├── index.js              Entry point — CLI + server routing
-│   ├── server.js             Express server + REST API
-│   ├── cli.js                Terminal runner (spinner, colors, live logs)
-│   ├── scanOrchestrator.js   Orchestrates the full scan pipeline
-│   ├── scanner.js            File discovery + safe path resolution
+│   ├── index.js              Entry point — handles CLI and server mode
+│   ├── server.js             Express web server and REST API
+│   ├── cli.js                Terminal interface with spinner and colored output
+│   ├── scanOrchestrator.js   Coordinates the scan pipeline end to end
+│   ├── scanner.js            File discovery and path resolution
 │   ├── analyzer.js           Rule-based content analysis engine
-│   ├── scoreEngine.js        Weighted trust score calculator
-│   └── reporter.js           ANSI terminal colors + spinner
+│   ├── scoreEngine.js        Weighted trust score calculation
+│   └── reporter.js           Terminal colors and progress display
 ├── public/
-│   └── index.html            Web dashboard (single-file, zero dependencies)
-├── render.yaml               Render deployment config
-├── vercel.json               Vercel deployment config
+│   └── index.html            Web dashboard (self-contained, no build step)
+├── render.yaml               Render.com deployment configuration
+├── vercel.json               Vercel deployment configuration
 └── package.json
 ```
 
 ---
 
-## 🛠 API Reference
+## API Reference
 
-### `POST /api/scan`
+### POST /api/scan
 
-**Request:**
+Scan a local directory and return integrity results.
+
+**Request body:**
 ```json
-{ "path": "." }
+{
+  "path": "/absolute/path/to/project"
+}
 ```
 
 **Response:**
@@ -226,32 +254,42 @@ docdrift-ai/
       "category": "Source Code",
       "trustScore": 24,
       "issue": "12 TODO/FIXME markers in production code."
+    },
+    {
+      "file": "CHANGELOG.md",
+      "category": "Documentation",
+      "trustScore": 91,
+      "issue": null
     }
   ]
 }
 ```
 
-### `GET /api/health`
+### GET /api/health
+
 ```json
 { "status": "ok", "version": "2.0.0" }
 ```
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
-### Render (Full Stack — Recommended)
+### Render — Full Stack (Recommended)
 
-1. Fork this repo on GitHub
-2. Go to [render.com](https://render.com) → **New Web Service**
-3. Connect your GitHub repo
-4. Settings auto-fill from `render.yaml`:
-   - Build: `npm install`
-   - Start: `node src/index.js serve`
-   - Plan: **Free**
-5. Click **Deploy** — live in ~3 minutes
+Deploys both the backend and the web dashboard. The live demo runs on Render's free plan.
 
-### Vercel (Frontend Only)
+1. Fork this repository on GitHub
+2. Go to [render.com](https://render.com) and create a new **Web Service**
+3. Connect your GitHub repository
+4. Render auto-detects `render.yaml` — no manual configuration needed
+5. Select the **Free** instance type and click **Deploy**
+
+Live within approximately 3 minutes.
+
+### Vercel — Frontend Only
+
+Serves the dashboard as a static site. The scan API will not be available — the demo button still works.
 
 ```bash
 npm install -g vercel
@@ -260,28 +298,41 @@ vercel --prod
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
-| Error | Fix |
+| Error | Solution |
 |---|---|
-| `Cannot find module './scanOrchestrator'` | Make sure `src/scanOrchestrator.js` is committed to git |
-| `Path does not exist` | Use absolute path or `"."` for current directory |
-| `GitHub URLs not supported` | `git clone <url>` first, then provide the local folder path |
-| `No scannable files found` | Ensure folder contains `.md`, `.js`, `.ts`, `.py` etc. |
-| Server not responding on Render | Free tier sleeps — wait 30–60s on first request |
+| `Cannot find module './scanOrchestrator'` | Ensure `src/scanOrchestrator.js` is committed and pushed to GitHub |
+| `Path does not exist` | Use an absolute path or `.` for the current directory |
+| GitHub URL entered in scanner | Clone the repository locally first, then provide the folder path |
+| `No scannable files found` | Confirm the folder contains `.md`, `.js`, `.ts`, or similar files |
+| Render not responding | Free instances sleep after inactivity — the first request takes up to 60 seconds |
 
 ---
 
-## 📄 License
+## Contributing
 
-MIT © 2025 — Built with ❤️ for hackathons and developers who care about documentation quality.
+Issues and pull requests are welcome.
+
+```bash
+git clone https://github.com/YOUR-USERNAME/docdrift-ai.git
+cd docdrift-ai
+npm install
+node src/index.js scan .
+```
+
+Run `node src/index.js scan .` after making changes — DocDrift will scan itself and flag any issues you introduced.
+
+---
+
+## License
+
+MIT © 2025
 
 ---
 
 <div align="center">
 
-**If DocDrift helped you, give it a ⭐ on GitHub!**
-
-*"Your docs should be as trustworthy as your code."*
+*"Your documentation should be as honest as your code."*
 
 </div>
