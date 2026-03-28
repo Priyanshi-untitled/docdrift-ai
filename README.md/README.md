@@ -83,7 +83,7 @@ node src/index.js scan C:/my-project
 
 ## 🌐 Live Demo
 
-👉 **[https://docdrift-ai.onrender.com](https://docdrift-ai.onrender.com)**
+👉 **[https://docdrift-ai-1.onrender.com](https://docdrift-ai-1.onrender.com)**
 
 1. Open the link
 2. Type **`.`** in the input box
