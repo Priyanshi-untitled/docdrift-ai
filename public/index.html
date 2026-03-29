@@ -371,18 +371,17 @@
 
     <!-- SCAN INPUT -->
     <div class="scan-section">
-      <div class="scan-label">▸ Target Path — Local Folder</div>
+      <div class="scan-label">▸ Target — Local Folder Path or GitHub URL</div>
       <div class="scan-bar">
         <div class="input-wrap">
-          <span class="input-prefix">~/</span>
-          <input type="text" id="pathInput" placeholder="C:\my-project  or  /home/user/repo  or  ." value="."/>
+          <span class="input-prefix">⬡</span>
+          <input type="text" id="pathInput" placeholder="https://github.com/user/repo  or  .  or  C:\my-project" value=""/>
         </div>
         <button class="scan-btn" id="scanBtn" onclick="triggerScan()">▶ START SCAN</button>
         <button class="demo-btn" onclick="loadDemo()">⚡ DEMO</button>
       </div>
       <div class="path-hint">
-        ⚠ Provide a <span>local folder path</span> — not a GitHub URL.
-        To scan a GitHub repo: <span>git clone &lt;url&gt;</span> then enter the local folder.
+        ✓ Paste a <span>GitHub URL</span> to scan any public repo — or enter a <span>local folder path</span> if running locally.
       </div>
     </div>
 
@@ -506,18 +505,21 @@
       const inputPath = document.getElementById('pathInput').value.trim();
       hideError();
 
-      if (!inputPath) { showError('Please enter a path.', ''); return; }
+      if (!inputPath) { showError('Please enter a GitHub URL or local folder path.', ''); return; }
 
-      // Quick client-side URL check
-      if (inputPath.startsWith('http') || inputPath.includes('github.com')) {
-        showError(
-          '⚠ GitHub URLs are not supported directly.',
-          'Clone the repo first:  git clone <url> my-project  — then enter the local folder path.'
-        );
-        return;
+      const isGithub = inputPath.startsWith('http') || inputPath.includes('github.com');
+
+      setScanState(true, isGithub);
+
+      // Update terminal messages based on input type
+      if (isGithub) {
+        LOG_MSGS[0] = { t: 'GitHub URL detected — preparing to clone...', s: 'ok' };
+        LOG_MSGS[1] = { t: 'Cloning repository (this takes ~10 seconds)...', s: 'warn' };
+      } else {
+        LOG_MSGS[0] = { t: 'Resolving target path...', s: 'ok' };
+        LOG_MSGS[1] = { t: 'Discovering project files...', s: 'ok' };
       }
 
-      setScanState(true);
       startTerminal();
 
       try {
@@ -538,22 +540,27 @@
       }
 
       stopTerminal();
-      setScanState(false);
+      setScanState(false, false);
     }
 
-    function setScanState(scanning) {
+    function setScanState(scanning, isGithub = false) {
       const btn     = document.getElementById('scanBtn');
       const scanUI  = document.getElementById('scanner-ui');
       const content = document.getElementById('main-content');
       btn.disabled           = scanning;
-      btn.textContent        = scanning ? '⌛ SCANNING...' : '▶ START SCAN';
+      btn.textContent        = scanning ? (isGithub ? '⌛ CLONING...' : '⌛ SCANNING...') : '▶ START SCAN';
       scanUI.style.display   = scanning ? 'block' : 'none';
       content.style.opacity  = scanning ? '0.25' : '1';
     }
 
     /* ── RENDER ── */
     function render(data) {
-      const { summary, results } = data;
+      const { summary, results, sourceType } = data;
+
+      // Show source type badge
+      const gradeTag = document.getElementById('gradeTag');
+      const sourceLabel = sourceType === 'github' ? '🔗 GITHUB REPO  ·  ' : '';
+      gradeTag.textContent = summary.grade ? `${sourceLabel}GRADE: ${summary.grade}` : '';
 
       // Stats
       const scoreBox = document.getElementById('score-val').closest('.stat-box');
@@ -564,9 +571,6 @@
       animCount(document.getElementById('count-val'),  summary.total,      '');
       animCount(document.getElementById('warn-val'),   summary.warnings,   '');
       animCount(document.getElementById('lies-val'),   summary.lies,       '');
-
-      const gradeTag = document.getElementById('gradeTag');
-      gradeTag.textContent = summary.grade ? `GRADE: ${summary.grade}` : '';
 
       // Cards
       const list = document.getElementById('results-list');
