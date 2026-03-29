@@ -12,7 +12,7 @@ DocDrift AI is a documentation integrity scanner that analyzes your project file
 
 No API key required. Works completely offline. Supports both a web dashboard and a terminal CLI.
 
-🌐 **Live Demo → https://docdrift-ai-1.onrender.com**
+🌐 **Live Demo → https://docdrift-ai-2.onrender.com**
 
 ---
 
@@ -94,7 +94,7 @@ node src/index.js scan /path/to/your/project
 
 The project is deployed and publicly accessible on Render.
 
-**→ https://docdrift-ai-1.onrender.com**
+**→ https://docdrift-ai-2.onrender.com**
 
 To try it: open the link, type `.` in the input box, and click **START SCAN**.
 DocDrift will scan its own deployed codebase and return real results.
